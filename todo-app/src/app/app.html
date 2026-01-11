@@ -1,0 +1,67 @@
+<div class="container">
+      <header>
+        <h1>{{ title }}</h1>
+        <p class="subtitle">Organize your daily tasks</p>
+      </header>
+
+      <!-- Add form -->
+      <div class="add-todo-form">
+        <input 
+          type="text" 
+          [(ngModel)]="newTodoTitle"
+          (keyup.enter)="addTodo()"
+          placeholder="Ajouter une nouvelle tâche..."
+          class="todo-input"
+        />
+        <button (click)="addTodo()" class="btn-add">
+          Add
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <span class="stat-item">
+          📝 Total: {{ todos().length }}
+        </span>
+        <span class="stat-item">
+          ✅ Completed: {{ completedTodos() }}
+        </span>
+        <span class="stat-item">
+          ⏳ Remaining: {{ remainingTodos() }}
+        </span>
+      </div>
+
+      <!-- Tasks List -->
+      <div class="todos-list">
+        @if (todos().length === 0) {
+          <div class="empty-state">
+            <p>🎉 No task at the moment!</p>
+            <p class="empty-subtitle">Add your first task above</p>
+          </div>
+        }
+
+        @for (todo of todos(); track todo.id) {
+          <div 
+            class="todo-item"
+            [class.completed]="todo.completed"
+          >
+            <input 
+              type="checkbox" 
+              [checked]="todo.completed"
+              (change)="toggleTodo(todo.id)"
+              class="todo-checkbox"
+            />
+            
+            <span class="todo-title">{{ todo.title }}</span>
+            
+            <button 
+              (click)="deleteTodo(todo.id)" 
+              class="btn-delete"
+              title="Supprimer"
+            >
+              🗑️
+            </button>
+          </div>
+        }
+      </div>
+    </div>
